@@ -1,4 +1,5 @@
 import { ToggleTheme } from '@/components/ToggleTheme';
+import { NavLinks } from './NavLinks';
 
 export default function Navbar() {
   return (
@@ -7,7 +8,10 @@ export default function Navbar() {
         <div>
           <h1 className="text-xl font-bold">Brand</h1>
         </div>
-        <ToggleTheme />
+        <div className="flex items-center space-x-6">
+          <NavLinks />
+          <ToggleTheme />
+        </div>
       </div>
     </nav>
   );
