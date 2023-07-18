@@ -116,7 +116,9 @@ export const SignUpForm = () => {
         />
 
         <Button disabled={isPending} className="w-full font-semibold">
-          {isPending && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
+          {isPending && (
+            <Loader2 className="w-4 h-4 mr-2 animate-spin" aria-hidden="true" />
+          )}
           Continue
         </Button>
       </form>
