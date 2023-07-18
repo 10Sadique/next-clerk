@@ -7,7 +7,7 @@ import { Loader2 } from 'lucide-react';
 import { useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSignIn, isClerkAPIResponseError } from '@clerk/nextjs';
-import { toast } from 'react-hot-toast';
+import { toast } from 'sonner';
 
 import {
   Form,
