@@ -1,5 +1,5 @@
 const Profile = () => {
-  return <div>Profile</div>;
+  return <div className="container py-2">Profile</div>;
 };
 
 export default Profile;
