@@ -7,7 +7,7 @@ import { Loader2 } from 'lucide-react';
 import { useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSignUp, isClerkAPIResponseError } from '@clerk/nextjs';
-import { toast } from 'react-hot-toast';
+import { toast } from 'sonner';
 
 import {
   Form,
@@ -62,8 +62,14 @@ export const SignUpForm = () => {
           password: data.password,
         });
 
-        router.push('/signin');
-        toast.success('Sign up successfull.');
+        await signUp.prepareEmailAddressVerification({
+          strategy: 'email_code',
+        });
+
+        router.push('/signup/verify-email');
+        toast.message('Check your email.', {
+          description: 'We sent you verification code on your email.',
+        });
       } catch (err) {
         toast.error('Something went wrong');
       }
@@ -111,7 +117,7 @@ export const SignUpForm = () => {
 
         <Button disabled={isPending} className="w-full font-semibold">
           {isPending && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
-          Sign Up
+          Continue
         </Button>
       </form>
     </Form>
