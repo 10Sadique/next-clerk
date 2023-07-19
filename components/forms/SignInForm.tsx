@@ -4,7 +4,7 @@ import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { Loader2 } from 'lucide-react';
-import { useTransition } from 'react';
+import { useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSignIn, isClerkAPIResponseError } from '@clerk/nextjs';
 import { toast } from 'sonner';
@@ -41,6 +41,7 @@ type SignUpSchemaType = z.infer<typeof formSchema>;
 export const SignInForm = () => {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
+  const [isLoading, setIsLoading] = useState(false);
   const { isLoaded, signIn, setActive } = useSignIn();
 
   // react hook form
@@ -53,6 +54,7 @@ export const SignInForm = () => {
   });
 
   const onSubmit = (data: SignUpSchemaType) => {
+    setIsLoading(true);
     if (!isLoaded) return;
 
     startTransition(async () => {
@@ -68,6 +70,8 @@ export const SignInForm = () => {
         toast.success('Signed in.');
       } catch (err) {
         toast.error('Something went wrong');
+      } finally {
+        setIsLoading(false);
       }
     });
   };
@@ -112,7 +116,7 @@ export const SignInForm = () => {
         />
 
         <Button disabled={isPending} className="w-full font-semibold">
-          {isPending && (
+          {isLoading && (
             <Loader2 className="w-4 h-4 mr-2 animate-spin" aria-hidden="true" />
           )}
           Sign In

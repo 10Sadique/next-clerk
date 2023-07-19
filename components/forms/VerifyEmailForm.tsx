@@ -4,7 +4,7 @@ import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { Loader2 } from 'lucide-react';
-import { useTransition } from 'react';
+import { useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSignUp, isClerkAPIResponseError } from '@clerk/nextjs';
 import { toast } from 'sonner';
@@ -33,6 +33,7 @@ type VerifyEmailSchemaType = z.infer<typeof formSchema>;
 
 export const VerifyEmailForm = () => {
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
   const { isLoaded, signUp, setActive } = useSignUp();
   const [isPending, startTransition] = useTransition();
 
@@ -45,6 +46,7 @@ export const VerifyEmailForm = () => {
   });
 
   const onSubmit = (data: VerifyEmailSchemaType) => {
+    setIsLoading(true);
     if (!isLoaded) return;
 
     startTransition(async () => {
@@ -53,17 +55,20 @@ export const VerifyEmailForm = () => {
           code: data.code,
         });
 
-        if (completeSignUp.status === 'complete') {
-          console.log(JSON.stringify(completeSignUp, null, 2));
-        }
+        // if (completeSignUp.status === 'complete') {
+        //   console.log(JSON.stringify(completeSignUp, null, 2));
+        // }
 
         if (completeSignUp.status === 'complete') {
           await setActive({ session: completeSignUp.createdSessionId });
 
           router.push(`${window.location.origin}/`);
+          toast.success('Account created.');
         }
       } catch (err) {
         toast.error('Something went wrong');
+      } finally {
+        setIsLoading(false);
       }
     });
   };
@@ -92,7 +97,7 @@ export const VerifyEmailForm = () => {
           )}
         />
         <Button disabled={isPending} className="w-full font-semibold">
-          {isPending && (
+          {isLoading && (
             <Loader2 className="w-4 h-4 mr-2 animate-spin" aria-hidden="true" />
           )}
           Create account
