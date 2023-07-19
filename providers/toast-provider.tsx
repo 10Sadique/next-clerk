@@ -13,6 +13,7 @@ export const Toaster = () => {
           border: '1px solid hsl(var(--border))',
         },
       }}
+      expand={false}
     />
   );
 };
