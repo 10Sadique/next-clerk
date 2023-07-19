@@ -1,6 +1,7 @@
 'use client';
 
-import { useUser } from '@clerk/nextjs';
+import { useUser, SignOutButton } from '@clerk/nextjs';
+import { useTransition } from 'react';
 import { User, FileCode, Settings, LogOut } from 'lucide-react';
 
 import {
@@ -16,9 +17,12 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export const UserDropdownMenu = () => {
   const user = useUser();
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
 
   if (!user.isSignedIn) return null;
 
@@ -64,11 +68,19 @@ export const UserDropdownMenu = () => {
 
           <DropdownMenuSeparator />
 
-          <DropdownMenuItem>
-            <LogOut className="w-4 h-4 mr-2" />
-            Log out
-            <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
-          </DropdownMenuItem>
+          <SignOutButton
+            signOutCallback={() => {
+              startTransition(() => {
+                router.push('/');
+              });
+            }}
+          >
+            <DropdownMenuItem className="cursor-pointer">
+              <LogOut className="w-4 h-4 mr-2" />
+              Log out
+              <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+            </DropdownMenuItem>
+          </SignOutButton>
         </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>
