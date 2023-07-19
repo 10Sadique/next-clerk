@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 
-import { siteConfig } from '@/lib/site-config';
+import { siteConfig } from '@/config/site-config';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import Image from 'next/image';
 

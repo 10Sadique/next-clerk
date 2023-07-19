@@ -11,7 +11,7 @@ export const NavLinks = () => {
 
   return (
     <div className="flex items-center gap-4 text-sm font-semibold text-zinc-400 dark:text-zinc-500">
-      {user.isSignedIn && (
+      {/* {user.isSignedIn && (
         <Link
           className={clsx(
             pathname === '/dashboard' && 'dark:text-white text-zinc-950'
@@ -20,7 +20,7 @@ export const NavLinks = () => {
         >
           Dashboard
         </Link>
-      )}
+      )} */}
 
       {!user.isSignedIn && (
         <>

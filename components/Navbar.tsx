@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { NavLinks } from '@/components/NavLinks';
 import { ToggleTheme } from '@/components/ToggleTheme';
 import { UserDropdownMenu } from '@/components/UserDropdownMenu';
-import { siteConfig } from '@/lib/site-config';
+import { siteConfig } from '@/config/site-config';
 
 export default function Navbar() {
   const { siteName } = siteConfig;

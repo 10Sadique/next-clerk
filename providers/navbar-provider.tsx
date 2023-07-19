@@ -11,7 +11,8 @@ export const NavbarProvider = () => {
   if (
     pathname === '/signin' ||
     pathname === '/signup' ||
-    pathname === '/signup/verify-email'
+    pathname === '/signup/verify-email' ||
+    pathname.includes('/dashboard')
   )
     return null;
 

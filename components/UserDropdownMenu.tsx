@@ -44,7 +44,7 @@ export const UserDropdownMenu = () => {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <Link href={'/profile'}>
+          <Link href={'/dashboard/account'}>
             <DropdownMenuItem>
               <User className="w-4 h-4 mr-2" />
               Profile

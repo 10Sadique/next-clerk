@@ -1,7 +1,5 @@
-import React from 'react';
-
 function Dashboard() {
-  return <div className="container py-2">Dashboard</div>;
+  return <div className="py-6 lg:py-8">Dashboard</div>;
 }
 
 export default Dashboard;

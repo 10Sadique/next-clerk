@@ -9,7 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { siteConfig } from '@/lib/site-config';
+import { siteConfig } from '@/config/site-config';
 
 const SignUp = () => {
   const { siteName } = siteConfig;
@@ -30,7 +30,17 @@ const SignUp = () => {
 
         <CardContent>
           {/* TODO: Social login button to be added */}
-          {/* //... */}
+          {/* <OAuthSignIn />
+          <div className="relative py-2">
+            <div className="absolute inset-0 flex items-center">
+              <span className="w-full border-t" />
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="px-2 bg-background text-muted-foreground">
+                Or continue with
+              </span>
+            </div>
+          </div> */}
           <SignUpForm />
         </CardContent>
 

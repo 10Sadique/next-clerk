@@ -9,7 +9,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { SignInForm } from '@/components/forms/SignInForm';
-import { siteConfig } from '@/lib/site-config';
+import { siteConfig } from '@/config/site-config';
 
 const SignIn = () => {
   const { siteName } = siteConfig;
