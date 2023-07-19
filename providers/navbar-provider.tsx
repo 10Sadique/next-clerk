@@ -8,7 +8,12 @@ import { usePathname } from 'next/navigation';
 export const NavbarProvider = () => {
   const pathname = usePathname();
 
-  if (pathname === '/signin' || pathname === '/signup') return null;
+  if (
+    pathname === '/signin' ||
+    pathname === '/signup' ||
+    pathname === '/signup/verify-email'
+  )
+    return null;
 
   return <Navbar />;
 };
