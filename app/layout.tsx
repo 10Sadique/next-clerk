@@ -6,6 +6,7 @@ import './globals.css';
 import { ThemeProvider } from '@/providers/theme-provider';
 import { Toaster } from '@/providers/toast-provider';
 import Navbar from '@/components/Navbar';
+import { NavbarProvider } from '@/providers/navbar-provider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -25,7 +26,7 @@ export default function RootLayout({
         <body className={inter.className}>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <Toaster />
-            <Navbar />
+            <NavbarProvider />
             {children}
           </ThemeProvider>
         </body>
