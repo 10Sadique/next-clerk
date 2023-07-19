@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 import { SignUpForm } from '@/components/forms/SignUpForm';
 import {
   Card,
@@ -7,13 +9,19 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import Link from 'next/link';
+import { siteConfig } from '@/lib/site-config';
 
 const SignUp = () => {
+  const { siteName } = siteConfig;
   return (
-    <div className="container flex items-center justify-center py-32">
+    <div className="container flex items-center justify-center h-full">
+      <div className="absolute z-10 left-8 top-6 line-clamp-1 lg:hidden">
+        <Link href={'/'} className="text-xl font-bold">
+          {siteName}
+        </Link>
+      </div>
       <Card className="w-[450px]">
-        <CardHeader className="text-center">
+        <CardHeader>
           <CardTitle className="text-2xl font-bold ">Sign Up</CardTitle>
           <CardDescription className="font-semibold">
             Create new account
@@ -26,7 +34,7 @@ const SignUp = () => {
           <SignUpForm />
         </CardContent>
 
-        <CardFooter className="grid text-sm font-semibold text-muted-foreground place-items-center">
+        <CardFooter className="text-sm font-semibold text-muted-foreground">
           <p>
             Already have an account?{' '}
             <Link href={'/signin'} className="underline">

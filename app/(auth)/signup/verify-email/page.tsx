@@ -9,14 +9,12 @@ import {
 
 const VerifyEmail = () => {
   return (
-    <div className="container flex items-center justify-center py-32">
+    <div className="container flex items-center justify-center h-full">
       <Card className="w-[450px]">
-        <CardHeader className="text-center">
-          <CardTitle className="text-2xl font-bold ">
-            Verify your email
-          </CardTitle>
+        <CardHeader>
+          <CardTitle className="text-2xl font-bold ">Verify email</CardTitle>
           <CardDescription className="font-semibold">
-            Enter the code sent to your email.
+            Verify your email address to complete your account creation
           </CardDescription>
         </CardHeader>
 
