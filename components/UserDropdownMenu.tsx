@@ -39,13 +39,22 @@ export const UserDropdownMenu = () => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56" align="end">
-        <DropdownMenuLabel className="font-semibold ">
-          {user.user.primaryEmailAddress?.emailAddress}
+        <DropdownMenuLabel className="flex items-center gap-3 font-semibold">
+          <Avatar className="w-8 h-8">
+            <AvatarImage src={user.user?.imageUrl} alt="user" />
+            <AvatarFallback>NA</AvatarFallback>
+          </Avatar>
+          <div>
+            <p>{user.user.fullName}</p>
+            <p className="text-xs text-muted-foreground">
+              {user.user.primaryEmailAddress?.emailAddress}
+            </p>
+          </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <Link href={'/dashboard/account'}>
-            <DropdownMenuItem>
+            <DropdownMenuItem className="cursor-pointer">
               <User className="w-4 h-4 mr-2" />
               Profile
               <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
@@ -53,18 +62,20 @@ export const UserDropdownMenu = () => {
           </Link>
 
           <Link href={'/dashboard'}>
-            <DropdownMenuItem>
+            <DropdownMenuItem className="cursor-pointer">
               <FileCode className="w-4 h-4 mr-2" />
               Dashboard
               <DropdownMenuShortcut>⇧⌘D</DropdownMenuShortcut>
             </DropdownMenuItem>
           </Link>
 
-          <DropdownMenuItem disabled>
-            <Settings className="w-4 h-4 mr-2" />
-            Settings
-            <DropdownMenuShortcut>⇧⌘S</DropdownMenuShortcut>
-          </DropdownMenuItem>
+          <Link href={'/dashboard/settings'}>
+            <DropdownMenuItem className="cursor-pointer">
+              <Settings className="w-4 h-4 mr-2" />
+              Settings
+              <DropdownMenuShortcut>⇧⌘S</DropdownMenuShortcut>
+            </DropdownMenuItem>
+          </Link>
 
           <DropdownMenuSeparator />
 
