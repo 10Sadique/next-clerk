@@ -34,6 +34,8 @@ const formSchema = z.object({
       message:
         'Password must contain at least 1 number(s), 1 uppercase letter(s) and 1 character(s).',
     }),
+  firstName: z.string().min(3, { message: 'First name is required' }),
+  lastName: z.string().min(3, { message: 'Last name is required' }),
 });
 
 type SignUpSchemaType = z.infer<typeof formSchema>;
@@ -50,6 +52,8 @@ export const SignUpForm = () => {
     defaultValues: {
       email: '',
       password: '',
+      firstName: '',
+      lastName: '',
     },
   });
 
@@ -62,6 +66,9 @@ export const SignUpForm = () => {
         await signUp.create({
           emailAddress: data.email,
           password: data.password,
+          firstName: data.firstName,
+          lastName: data.lastName,
+          username: data.email.split('@')[0],
         });
 
         await signUp.prepareEmailAddressVerification({
@@ -73,6 +80,7 @@ export const SignUpForm = () => {
           description: 'We sent you verification code on your email.',
         });
       } catch (err) {
+        console.log(err);
         toast.error('Something went wrong');
       } finally {
         setIsLoading(false);
@@ -83,6 +91,34 @@ export const SignUpForm = () => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <div className="grid grid-cols-2 gap-4">
+          <FormField
+            control={form.control}
+            name="firstName"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>First Name</FormLabel>
+                <FormControl>
+                  <Input type="text" placeholder="First Name" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="lastName"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Last Name</FormLabel>
+                <FormControl>
+                  <Input type="text" placeholder="Last Name" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
         <FormField
           control={form.control}
           name="email"
