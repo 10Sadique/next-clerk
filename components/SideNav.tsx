@@ -7,7 +7,6 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 export const SideNav = () => {
-  console.log(typeof User);
   const pathname = usePathname();
   const routes = [
     {

@@ -26,8 +26,6 @@ export const UserDropdownMenu = () => {
 
   if (!user.isSignedIn) return null;
 
-  console.log(user.user);
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
