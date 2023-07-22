@@ -9,6 +9,12 @@ const formSchema = z.object({
   description: z.string().min(10),
 });
 
+type ProjectFormType = z.infer<typeof formSchema>;
+
 export const AddProjectForm = () => {
+  const form = useForm<ProjectFormType>({
+    resolver: zodResolver(formSchema),
+  });
+
   return <div>AddProjectForm</div>;
 };
