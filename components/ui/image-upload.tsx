@@ -49,24 +49,27 @@ export const ImageUpload: React.FC<IImageUplaod> = ({
           </div>
         ))}
       </div>
-      <CldUploadWidget onUpload={onUpload} uploadPreset="uwmfuocr">
-        {({ open }) => {
-          const onClick = () => {
-            open();
-          };
-          return (
-            <Button
-              type="button"
-              disabled={disabled}
-              variant={'secondary'}
-              onClick={onClick}
-            >
-              <ImagePlus className="w-4 h-4 mr-2" />
-              Upload an Image
-            </Button>
-          );
-        }}
-      </CldUploadWidget>
+      {!value.length && (
+        <CldUploadWidget onUpload={onUpload} uploadPreset="uwmfuocr">
+          {({ open }) => {
+            const onClick = () => {
+              open();
+            };
+            return (
+              <Button
+                type="button"
+                disabled={disabled}
+                variant={'secondary'}
+                onClick={onClick}
+                className="w-full h-[200px] rounded-md"
+              >
+                <ImagePlus className="w-4 h-4 mr-2" />
+                Upload an Image
+              </Button>
+            );
+          }}
+        </CldUploadWidget>
+      )}
     </div>
   );
 };

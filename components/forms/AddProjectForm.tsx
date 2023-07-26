@@ -22,6 +22,8 @@ const formSchema = z.object({
   name: z.string().min(3),
   description: z.string().min(10),
   mainImage: z.string().min(10),
+  gitHub: z.string().min(10),
+  live: z.string().min(10),
 });
 
 type ProjectFormType = z.infer<typeof formSchema>;
@@ -35,6 +37,8 @@ export const AddProjectForm = () => {
       name: '',
       description: '',
       mainImage: '',
+      gitHub: '',
+      live: '',
     },
   });
 
@@ -49,7 +53,25 @@ export const AddProjectForm = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <FormField
+          control={form.control}
+          name="mainImage"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Image</FormLabel>
+              <FormControl>
+                <ImageUpload
+                  value={field.value ? [field.value] : []}
+                  disabled={loading}
+                  onChange={(url) => field.onChange(url)}
+                  onRemove={() => field.onChange('')}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <div className="grid grid-cols-2 gap-4 mb-4">
           <div className="space-y-4">
             <FormField
@@ -72,16 +94,33 @@ export const AddProjectForm = () => {
 
             <FormField
               control={form.control}
-              name="mainImage"
+              name="gitHub"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Image</FormLabel>
+                  <FormLabel>GitHub Repo</FormLabel>
                   <FormControl>
-                    <ImageUpload
-                      value={field.value ? [field.value] : []}
-                      disabled={loading}
-                      onChange={(url) => field.onChange(url)}
-                      onRemove={() => field.onChange('')}
+                    <Input
+                      type="text"
+                      {...field}
+                      placeholder="Enter github repo url"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="live"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Live Link</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="text"
+                      {...field}
+                      placeholder="Enter live link"
                     />
                   </FormControl>
                   <FormMessage />
@@ -89,7 +128,7 @@ export const AddProjectForm = () => {
               )}
             />
           </div>
-          <div>
+          <div className="space-y-4">
             <FormField
               control={form.control}
               name="description"
