@@ -1,8 +1,10 @@
+import Link from 'next/link';
+import { Plus } from 'lucide-react';
+
+import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { SubHeading } from '@/components/ui/sub-heading';
-import { Plus } from 'lucide-react';
-import Link from 'next/link';
-import { Button } from '../ui/button';
+import { AllProjects } from '@/components/dashboard/AllProjects';
 
 export const ProjectsContainer = () => {
   return (
@@ -20,7 +22,7 @@ export const ProjectsContainer = () => {
 
       <Separator />
 
-      <div></div>
+      <AllProjects />
     </div>
   );
 };
