@@ -10,13 +10,14 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ChangeEvent, useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { Button } from '../ui/button';
 import { ImageUpload } from '../ui/image-upload';
 import { Textarea } from '../ui/textarea';
-import MDEditor from '@uiw/react-md-editor';
+import { Loader2 } from 'lucide-react';
+import Link from 'next/link';
 
 const formSchema = z.object({
   name: z.string().min(3),
@@ -24,6 +25,7 @@ const formSchema = z.object({
   mainImage: z.string().min(10),
   gitHub: z.string().min(10),
   live: z.string().min(10),
+  technologies: z.string().min(10),
 });
 
 type ProjectFormType = z.infer<typeof formSchema>;
@@ -39,16 +41,19 @@ export const AddProjectForm = () => {
       mainImage: '',
       gitHub: '',
       live: '',
+      technologies: '',
     },
   });
 
   const onSubmit = (data: ProjectFormType) => {
-    console.log(data);
-    console.log(data.description);
-  };
-
-  const handleEditorChange = (value: string) => {
-    form.setValue('description', value);
+    try {
+      setLoading(true);
+      console.log(data);
+      console.log(data.description);
+    } catch (error) {
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -136,26 +141,44 @@ export const AddProjectForm = () => {
                 <FormItem>
                   <FormLabel>Description</FormLabel>
                   <FormControl>
-                    <MDEditor
-                      className="!bg-background"
-                      hideToolbar
-                      placeholder="Enter project description"
-                      value={form.watch('description')}
-                      onChange={(value) => handleEditorChange(value!)}
-                      preview="edit"
+                    <Textarea
+                      {...field}
+                      placeholder="Enter project description in MDX"
+                      className="h-[128px] resize"
                     />
                   </FormControl>
-                  {/* <Textarea
-                    {...field}
-                    placeholder="Enter project description"
-                  /> */}
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="technologies"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Technologies</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Next.js, Clerk, ..." {...field} />
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
           </div>
         </div>
-        <Button type="submit">Sumbit</Button>
+        <div className="flex justify-end space-x-3">
+          <Link href={'/dashboard'}>
+            <Button type="button" variant={'outline'} className="">
+              Cancel
+            </Button>
+          </Link>
+          <Button disabled={loading} type="submit" className="w-52">
+            {loading && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
+            Add Project
+          </Button>
+        </div>
       </form>
     </Form>
   );
