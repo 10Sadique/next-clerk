@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import Image from 'next/image';
 
 import { Project } from '@/types';
@@ -26,7 +27,9 @@ export const SingleProjectCard = ({ project }: { project: Project }) => {
         />
       </CardContent>
       <CardFooter>
-        <Button>View Project</Button>
+        <Link href={`/dashboard/project/${project.id}`}>
+          <Button>View Project</Button>
+        </Link>
       </CardFooter>
     </Card>
   );
