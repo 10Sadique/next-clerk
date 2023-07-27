@@ -1,5 +1,16 @@
 'use client';
 
+import * as z from 'zod';
+import axios from 'axios';
+import Link from 'next/link';
+import { toast } from 'sonner';
+import { useState } from 'react';
+import { AxiosError } from 'axios';
+import { Loader2 } from 'lucide-react';
+import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
+import { zodResolver } from '@hookform/resolvers/zod';
+
 import {
   Form,
   FormControl,
@@ -8,16 +19,10 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import * as z from 'zod';
 import { Button } from '../ui/button';
-import { ImageUpload } from '../ui/image-upload';
 import { Textarea } from '../ui/textarea';
-import { Loader2 } from 'lucide-react';
-import Link from 'next/link';
+import { Input } from '@/components/ui/input';
+import { ImageUpload } from '../ui/image-upload';
 
 const formSchema = z.object({
   name: z.string().min(3),
@@ -28,10 +33,11 @@ const formSchema = z.object({
   technologies: z.string().min(10),
 });
 
-type ProjectFormType = z.infer<typeof formSchema>;
+export type ProjectFormType = z.infer<typeof formSchema>;
 
 export const AddProjectForm = () => {
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const form = useForm<ProjectFormType>({
     resolver: zodResolver(formSchema),
@@ -45,12 +51,20 @@ export const AddProjectForm = () => {
     },
   });
 
-  const onSubmit = (data: ProjectFormType) => {
+  const onSubmit = async (data: ProjectFormType) => {
     try {
       setLoading(true);
-      console.log(data);
-      console.log(data.description);
+
+      const res = await axios.post('/api/v1/projects/new', data);
+
+      if (res.status === 201) {
+        router.push('/dashboard');
+        toast.success('Project Created.');
+      }
     } catch (error) {
+      if (error instanceof AxiosError) {
+        toast.error(error.message);
+      }
     } finally {
       setLoading(false);
     }
