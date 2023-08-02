@@ -35,3 +35,24 @@ export async function GET(
     });
   }
 }
+
+export async function DELETE(
+  req: Request,
+  {
+    params,
+  }: {
+    params: {
+      projectId: string;
+    };
+  }
+) {
+  const id = params.projectId;
+
+  try {
+    // TODO: add delete functinality
+  } catch (error) {
+    return new NextResponse('Something went wrong, try again later.', {
+      status: 500,
+    });
+  }
+}
