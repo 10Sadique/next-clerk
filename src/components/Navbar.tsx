@@ -1,7 +1,6 @@
 import Link from 'next/link';
 
 import { NavLinks } from '@/components/NavLinks';
-import { ToggleTheme } from '@/components/ToggleTheme';
 import { UserDropdownMenu } from '@/components/UserDropdownMenu';
 import { siteConfig } from '@/config/site-config';
 
@@ -18,7 +17,6 @@ export default function Navbar() {
         </div>
         <div className="flex items-center space-x-6">
           <NavLinks />
-          <ToggleTheme />
           <UserDropdownMenu />
         </div>
       </div>

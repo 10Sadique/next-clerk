@@ -2,7 +2,15 @@
 
 import { useUser, SignOutButton } from '@clerk/nextjs';
 import { useTransition } from 'react';
-import { User, FileCode, Settings, LogOut } from 'lucide-react';
+import {
+  User,
+  FileCode,
+  Settings,
+  LogOut,
+  Palette,
+  Moon,
+  Sun,
+} from 'lucide-react';
 
 import {
   DropdownMenu,
@@ -13,15 +21,22 @@ import {
   DropdownMenuSeparator,
   DropdownMenuItem,
   DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubTrigger,
+  DropdownMenuPortal,
+  DropdownMenuSubContent,
+  DropdownMenuRadioGroup,
 } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useTheme } from 'next-themes';
 
 export const UserDropdownMenu = () => {
   const user = useUser();
   const router = useRouter();
+  const { setTheme } = useTheme();
   const [isPending, startTransition] = useTransition();
 
   if (!user.isSignedIn) return null;
@@ -49,7 +64,9 @@ export const UserDropdownMenu = () => {
             </p>
           </div>
         </DropdownMenuLabel>
+
         <DropdownMenuSeparator />
+
         <DropdownMenuGroup>
           <Link href={'/dashboard/account'}>
             <DropdownMenuItem className="cursor-pointer">
@@ -74,9 +91,35 @@ export const UserDropdownMenu = () => {
               <DropdownMenuShortcut>⇧⌘S</DropdownMenuShortcut>
             </DropdownMenuItem>
           </Link>
+        </DropdownMenuGroup>
 
-          <DropdownMenuSeparator />
+        <DropdownMenuSeparator />
 
+        <DropdownMenuRadioGroup>
+          <DropdownMenuSub>
+            <DropdownMenuSubTrigger>
+              <Palette className="w-4 h-4 mr-2" />
+              <span>Theme</span>
+            </DropdownMenuSubTrigger>
+            <DropdownMenuPortal>
+              <DropdownMenuSubContent>
+                <DropdownMenuItem onClick={() => setTheme('dark')}>
+                  <Moon className="w-4 h-4 mr-2" />
+                  <span>Dark</span>
+                </DropdownMenuItem>
+
+                <DropdownMenuItem onClick={() => setTheme('light')}>
+                  <Sun className="w-4 h-4 mr-2" />
+                  <span>Light</span>
+                </DropdownMenuItem>
+              </DropdownMenuSubContent>
+            </DropdownMenuPortal>
+          </DropdownMenuSub>
+        </DropdownMenuRadioGroup>
+
+        <DropdownMenuSeparator />
+
+        <DropdownMenuGroup>
           <SignOutButton
             signOutCallback={() => {
               startTransition(() => {
