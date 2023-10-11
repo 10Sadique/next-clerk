@@ -52,8 +52,6 @@ export const SignleProjectPage = ({ id }: { id: string }) => {
     getProjcet();
   }, [getProjcet]);
 
-  console.log(project);
-
   if (loading) {
     return (
       <div className="py-6 space-y-6 lg:py-8 lg:space-y-8">
