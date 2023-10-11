@@ -28,7 +28,7 @@ interface IProject {
     id: string;
     liveLink: string;
     projectId: string;
-  };
+  }[];
   technologies: ITechnology[];
 }
 
@@ -95,7 +95,7 @@ export const SignleProjectPage = ({ id }: { id: string }) => {
         alt={project?.name!}
         width={1400}
         height={500}
-        className="object-cover h-[400px] rounded-md mb-6"
+        className="object-cover mb-6 rounded-md h-max"
       />
 
       <div className="flex items-center justify-between">
@@ -105,7 +105,7 @@ export const SignleProjectPage = ({ id }: { id: string }) => {
 
       <div className="mb-3 space-x-4">
         <Link
-          href={project?.links.github!}
+          href={project?.links[0].github!}
           target="_blank"
           className={buttonVariants({ className: 'flex items-center' })}
         >
@@ -113,7 +113,7 @@ export const SignleProjectPage = ({ id }: { id: string }) => {
           GitHub Repo
         </Link>
         <Link
-          href={project?.links.liveLink!}
+          href={project?.links[0].liveLink!}
           target="_blank"
           className={buttonVariants({ className: 'flex items-center' })}
         >
