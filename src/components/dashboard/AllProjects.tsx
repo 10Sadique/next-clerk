@@ -19,7 +19,8 @@ export const AllProjects = () => {
     try {
       setLoading(true);
       const res = await axios.get('/api/v1/projects');
-      setProjects(res.data.slice(0, 3));
+      setProjects(res.data);
+      // setProjects(res.data.slice(0, 3));
     } catch (error) {
       toast.error('Faild to load projects.');
     } finally {
@@ -71,7 +72,7 @@ export const AllProjects = () => {
       )}
 
       {projects.length === 0 && !loading && (
-        <p className="py-6 text-center text-muted-foreground">
+        <p className="py-6 text-sm font-semibold text-center text-muted-foreground/50">
           No projects found.
         </p>
       )}
