@@ -23,8 +23,7 @@ model Project {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  linkId String? @db.ObjectId
-  links  Link[]
+  links Link[]
 }
 
 model Link {
@@ -33,13 +32,13 @@ model Link {
   liveLink String
 
   projectId String  @db.ObjectId
-  Project   Project @relation(fields: [projectId], references: [id])
+  Project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
 }
 
 model Technology {
   id   String @id @default(auto()) @map("_id") @db.ObjectId
   name String
 
-  Project   Project? @relation(fields: [projectId], references: [id])
+  Project   Project? @relation(fields: [projectId], references: [id], onDelete: Cascade)
   projectId String?  @db.ObjectId
 }
