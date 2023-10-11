@@ -22,7 +22,7 @@ import {
 import { Button } from '../ui/button';
 import { Textarea } from '../ui/textarea';
 import { Input } from '@/components/ui/input';
-import { ImageUpload } from '../ui/image-upload';
+import { ImageUploadButton } from '../ImageUploadButton';
 
 const formSchema = z.object({
   name: z.string().min(3),
@@ -80,12 +80,13 @@ export const AddProjectForm = () => {
             <FormItem>
               <FormLabel>Image</FormLabel>
               <FormControl>
-                <ImageUpload
+                {/* <ImageUpload
                   value={field.value ? [field.value] : []}
                   disabled={loading}
                   onChange={(url) => field.onChange(url)}
                   onRemove={() => field.onChange('')}
-                />
+                /> */}
+                <ImageUploadButton />
               </FormControl>
               <FormMessage />
             </FormItem>
