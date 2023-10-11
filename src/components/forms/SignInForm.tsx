@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { Loader2 } from 'lucide-react';
 import { useState, useTransition } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useSignIn, isClerkAPIResponseError } from '@clerk/nextjs';
 import { toast } from 'sonner';
 
@@ -40,6 +40,7 @@ type SignUpSchemaType = z.infer<typeof formSchema>;
 
 export const SignInForm = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
   const [isLoading, setIsLoading] = useState(false);
   const { isLoaded, signIn, setActive } = useSignIn();
@@ -66,7 +67,11 @@ export const SignInForm = () => {
 
         await setActive({ session: result.createdSessionId });
 
-        router.push('/');
+        if (searchParams.get('redirect_url')) {
+          router.push(searchParams.get('redirect_url')!);
+        } else {
+          router.push('/');
+        }
         toast.success('Signed in.');
       } catch (err) {
         toast.error('Something went wrong');
