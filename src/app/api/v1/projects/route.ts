@@ -14,7 +14,7 @@ export async function GET(req: Request) {
     });
 
     if (!projects.length) {
-      return new NextResponse('Resource not found.', { status: 404 });
+      return NextResponse.json(projects, { status: 200 });
     }
 
     return NextResponse.json(projects, { status: 200 });
