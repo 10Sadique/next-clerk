@@ -47,14 +47,10 @@ export async function DELETE(
   }
 ) {
   const id = params.projectId;
-
   try {
-    const project = await db.project.delete({
-      where: { id },
-      include: { links: true, technologies: true },
-    });
+    await db.project.delete({ where: { id } });
 
-    return NextResponse.json({ success: true, project });
+    return NextResponse.json({ success: true });
   } catch (error) {
     return new NextResponse('Something went wrong, try again later.', {
       status: 500,
