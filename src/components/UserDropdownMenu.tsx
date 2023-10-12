@@ -1,6 +1,5 @@
 'use client';
 
-import { useUser, SignOutButton } from '@clerk/nextjs';
 import { useTransition } from 'react';
 import {
   User,
@@ -32,21 +31,22 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useTheme } from 'next-themes';
+import { signOut, useSession } from 'next-auth/react';
 
 export const UserDropdownMenu = () => {
-  const user = useUser();
+  const { data: session, status } = useSession();
   const router = useRouter();
   const { setTheme } = useTheme();
   const [isPending, startTransition] = useTransition();
 
-  if (!user.isSignedIn) return null;
+  if (status === 'unauthenticated') return null;
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative w-8 h-8 rounded-full">
           <Avatar className="w-8 h-8">
-            <AvatarImage src={user.user?.imageUrl} alt="user" />
+            <AvatarImage src={session?.user?.image!} alt="user" />
             <AvatarFallback>NA</AvatarFallback>
           </Avatar>
         </Button>
@@ -54,13 +54,13 @@ export const UserDropdownMenu = () => {
       <DropdownMenuContent className="w-56" align="end">
         <DropdownMenuLabel className="flex items-center gap-3 font-semibold">
           <Avatar className="w-8 h-8">
-            <AvatarImage src={user.user?.imageUrl} alt="user" />
+            <AvatarImage src={session?.user?.image!} alt="user" />
             <AvatarFallback>NA</AvatarFallback>
           </Avatar>
           <div>
-            <p>{user.user.fullName}</p>
+            <p>{session?.user?.name}</p>
             <p className="text-xs text-muted-foreground">
-              {user.user.primaryEmailAddress?.emailAddress}
+              {session?.user?.email}
             </p>
           </div>
         </DropdownMenuLabel>
@@ -120,19 +120,18 @@ export const UserDropdownMenu = () => {
         <DropdownMenuSeparator />
 
         <DropdownMenuGroup>
-          <SignOutButton
-            signOutCallback={() => {
-              startTransition(() => {
-                router.push('/');
-              });
-            }}
+          <DropdownMenuItem
+            onClick={async () =>
+              await signOut({
+                callbackUrl: `${process.env.NEXT_PUBLIC_URL}/signin`,
+              })
+            }
+            className="cursor-pointer"
           >
-            <DropdownMenuItem className="cursor-pointer">
-              <LogOut className="w-4 h-4 mr-2" />
-              Log out
-              <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
-            </DropdownMenuItem>
-          </SignOutButton>
+            <LogOut className="w-4 h-4 mr-2" />
+            Log out
+            <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+          </DropdownMenuItem>
         </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>

@@ -4,9 +4,9 @@ import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { Loader2 } from 'lucide-react';
-import { useState, useTransition } from 'react';
-import { useRouter } from 'next/navigation';
-import { useSignUp, isClerkAPIResponseError } from '@clerk/nextjs';
+import { useState } from 'react';
+import { redirect, useRouter } from 'next/navigation';
+
 import { toast } from 'sonner';
 
 import {
@@ -19,6 +19,8 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import axios, { AxiosError } from 'axios';
+import { useSession } from 'next-auth/react';
 
 const formSchema = z.object({
   email: z
@@ -42,9 +44,13 @@ type SignUpSchemaType = z.infer<typeof formSchema>;
 
 export const SignUpForm = () => {
   const router = useRouter();
-  const [isPending, startTransition] = useTransition();
   const [isLoading, setIsLoading] = useState(false);
-  const { isLoaded, signUp } = useSignUp();
+
+  const { status } = useSession();
+
+  if (status === 'authenticated') {
+    redirect('/dashboard');
+  }
 
   // react hook form
   const form = useForm<SignUpSchemaType>({
@@ -57,35 +63,25 @@ export const SignUpForm = () => {
     },
   });
 
-  const onSubmit = (data: SignUpSchemaType) => {
+  const onSubmit = async (vales: SignUpSchemaType) => {
     setIsLoading(true);
-    if (!isLoaded) return;
 
-    startTransition(async () => {
-      try {
-        await signUp.create({
-          emailAddress: data.email,
-          password: data.password,
-          firstName: data.firstName,
-          lastName: data.lastName,
-          username: data.email.split('@')[0],
-        });
+    try {
+      const { data } = await axios.post(`/api/register`, {
+        name: `${vales.firstName} ${vales.lastName}`,
+        email: vales.email,
+        password: vales.password,
+      });
 
-        await signUp.prepareEmailAddressVerification({
-          strategy: 'email_code',
-        });
-
-        router.push('/signup/verify-email');
-        toast.message('Check your email.', {
-          description: 'We sent you verification code on your email.',
-        });
-      } catch (err) {
-        console.log(err);
-        toast.error('Something went wrong');
-      } finally {
-        setIsLoading(false);
+      if (data?.success) {
+        toast.success('Account successfully created.');
+        router.push('/signin');
       }
-    });
+    } catch (error) {
+      if (error instanceof AxiosError) toast.error(error.response?.data);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -99,7 +95,7 @@ export const SignUpForm = () => {
               <FormItem>
                 <FormLabel>First Name</FormLabel>
                 <FormControl>
-                  <Input type="text" placeholder="First Name" {...field} />
+                  <Input type="text" placeholder="john" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -112,7 +108,7 @@ export const SignUpForm = () => {
               <FormItem>
                 <FormLabel>Last Name</FormLabel>
                 <FormControl>
-                  <Input type="text" placeholder="Last Name" {...field} />
+                  <Input type="text" placeholder="doe" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -126,11 +122,7 @@ export const SignUpForm = () => {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input
-                  type="email"
-                  placeholder="Enter email address"
-                  {...field}
-                />
+                <Input type="email" placeholder="you@example.com" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -146,7 +138,7 @@ export const SignUpForm = () => {
               <FormControl>
                 <Input
                   type="password"
-                  placeholder="Enter password"
+                  placeholder="at least 8 characters"
                   {...field}
                 />
               </FormControl>

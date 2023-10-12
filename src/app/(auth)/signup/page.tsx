@@ -10,18 +10,11 @@ import { SignUpForm } from '@/components/forms/SignUpForm';
 const SignUp = () => {
   return (
     <div className="container flex items-center justify-center h-full">
-      <Card className="w-[450px]">
-        <CardHeader>
-          <CardTitle className="text-2xl font-bold ">Sign Up</CardTitle>
-          <CardDescription className="font-semibold">
-            Create new account
-          </CardDescription>
-        </CardHeader>
-
-        <CardContent>
-          <SignUpForm />
-        </CardContent>
-      </Card>
+      <div className="w-[400px]">
+        <h1 className="mb-2 text-3xl font-medium">Get started!</h1>
+        <p className="mb-6 text-muted-foreground">Create new account</p>
+        <SignUpForm />
+      </div>
     </div>
   );
 };

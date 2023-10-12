@@ -4,9 +4,8 @@ import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { Loader2 } from 'lucide-react';
-import { useState, useTransition } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { useSignIn, isClerkAPIResponseError } from '@clerk/nextjs';
+import { useState } from 'react';
+import { redirect, useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
 import {
@@ -19,6 +18,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { signIn, useSession } from 'next-auth/react';
 
 const formSchema = z.object({
   email: z
@@ -40,10 +40,14 @@ type SignUpSchemaType = z.infer<typeof formSchema>;
 
 export const SignInForm = () => {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const [isPending, startTransition] = useTransition();
+
+  const { status } = useSession();
+
+  if (status === 'authenticated') {
+    redirect('/dashboard');
+  }
+
   const [isLoading, setIsLoading] = useState(false);
-  const { isLoaded, signIn, setActive } = useSignIn();
 
   // react hook form
   const form = useForm<SignUpSchemaType>({
@@ -54,31 +58,23 @@ export const SignInForm = () => {
     },
   });
 
-  const onSubmit = (data: SignUpSchemaType) => {
+  const onSubmit = async (data: SignUpSchemaType) => {
     setIsLoading(true);
-    if (!isLoaded) return;
+    try {
+      const res = await signIn('credentials', {
+        ...data,
+        callbackUrl: `${process.env.NEXT_PUBLIC_URL}/dashboard`,
+        redirect: false,
+      });
 
-    startTransition(async () => {
-      try {
-        const result = await signIn.create({
-          identifier: data.email,
-          password: data.password,
-        });
-
-        await setActive({ session: result.createdSessionId });
-
-        if (searchParams.get('redirect_url')) {
-          router.push(searchParams.get('redirect_url')!);
-        } else {
-          router.push('/');
-        }
-        toast.success('Signed in.');
-      } catch (err) {
-        toast.error('Something went wrong');
-      } finally {
-        setIsLoading(false);
+      if (res?.error) {
+        toast.error(res.error);
       }
-    });
+    } catch (error: any) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -91,11 +87,7 @@ export const SignInForm = () => {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input
-                  type="email"
-                  placeholder="Enter email address"
-                  {...field}
-                />
+                <Input type="email" placeholder="you@example.com" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -111,7 +103,7 @@ export const SignInForm = () => {
               <FormControl>
                 <Input
                   type="password"
-                  placeholder="Enter password"
+                  placeholder="at least 8 characters"
                   {...field}
                 />
               </FormControl>

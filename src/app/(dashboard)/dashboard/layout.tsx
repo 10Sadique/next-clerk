@@ -1,8 +1,14 @@
 import Navbar from '@/components/Navbar';
 import { SideNav } from '@/components/SideNav';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { useServerSession } from '@/hooks/useServerSession';
+import { redirect } from 'next/navigation';
 
-function DashboardLayout({ children }: { children: React.ReactNode }) {
+async function DashboardLayout({ children }: { children: React.ReactNode }) {
+  const session = await useServerSession();
+  if (!session?.user?.email) {
+    redirect('/');
+  }
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />

@@ -1,28 +1,17 @@
 'use client';
 
-import { useUser } from '@clerk/nextjs';
 import clsx from 'clsx';
 import Link from 'next/link';
+import { useSession } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
 
 export const NavLinks = () => {
   const pathname = usePathname();
-  const user = useUser();
+  const { status } = useSession();
 
   return (
     <div className="flex items-center gap-4 text-sm font-semibold text-zinc-400 dark:text-zinc-500">
-      {/* {user.isSignedIn && (
-        <Link
-          className={clsx(
-            pathname === '/dashboard' && 'dark:text-white text-zinc-950'
-          )}
-          href={'/dashboard'}
-        >
-          Dashboard
-        </Link>
-      )} */}
-
-      {!user.isSignedIn && (
+      {status === 'unauthenticated' ? (
         <>
           <Link
             className={clsx(
@@ -41,7 +30,7 @@ export const NavLinks = () => {
             Sign Up
           </Link>
         </>
-      )}
+      ) : null}
     </div>
   );
 };

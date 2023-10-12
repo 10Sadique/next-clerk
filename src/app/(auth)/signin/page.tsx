@@ -9,19 +9,12 @@ import { SignInForm } from '@/components/forms/SignInForm';
 
 const SignIn = () => {
   return (
-    <div className="container relative flex items-center justify-center h-full">
-      <Card className="w-[450px]">
-        <CardHeader>
-          <CardTitle className="text-2xl font-bold ">Sign In</CardTitle>
-          <CardDescription className="font-semibold">
-            Sign in to your account
-          </CardDescription>
-        </CardHeader>
-
-        <CardContent>
-          <SignInForm />
-        </CardContent>
-      </Card>
+    <div className="container flex items-center justify-center h-full">
+      <div className="w-[400px]">
+        <h1 className="mb-2 text-3xl font-medium">Welcome back!</h1>
+        <p className="mb-6 text-muted-foreground">Sign in to your account</p>
+        <SignInForm />
+      </div>
     </div>
   );
 };
