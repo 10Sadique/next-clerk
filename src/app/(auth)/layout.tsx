@@ -1,18 +1,17 @@
-import { Metadata } from 'next';
 import Link from 'next/link';
-
-import { siteConfig } from '@/config/site-config';
-import { AspectRatio } from '@/components/ui/aspect-ratio';
 import Image from 'next/image';
+import { Metadata } from 'next';
+import { ChevronLeft } from 'lucide-react';
+
+import { buttonVariants } from '@/components/ui/button';
+import { AspectRatio } from '@/components/ui/aspect-ratio';
 
 export const metadata: Metadata = {
-  title: 'Next Clerk - Auth',
+  title: 'Jafar - Auth',
   description: 'Next application with Clerk authentication',
 };
 
 function AuthLayout({ children }: { children: React.ReactNode }) {
-  const { siteName } = siteConfig;
-
   return (
     <div className="grid min-h-screen grid-cols-1 lg:grid-cols-2">
       <AspectRatio
@@ -28,8 +27,14 @@ function AuthLayout({ children }: { children: React.ReactNode }) {
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
         <div className="absolute z-20 left-8 top-6 line-clamp-1">
-          <Link href={'/'} className="text-xl font-bold">
-            {siteName}
+          <Link
+            href={'/'}
+            className={buttonVariants({
+              variant: 'secondary',
+            })}
+          >
+            <ChevronLeft className="w-4 h-4 mr-2" />
+            Back
           </Link>
         </div>
       </AspectRatio>
