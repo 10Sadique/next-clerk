@@ -1,3 +1,3 @@
 export const siteConfig = {
-  siteName: 'Brand',
+  siteName: 'Jafar',
 };
