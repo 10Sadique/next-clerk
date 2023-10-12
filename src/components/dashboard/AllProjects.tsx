@@ -8,8 +8,7 @@ import { Project } from '@/types';
 import { Button } from '@/components/ui/button';
 import { SingleProjectCard } from '@/components/dashboard/SingleProjectCard';
 import { Loader2 } from 'lucide-react';
-import { Skeleton } from '../ui/skeleton';
-import { Card, CardContent, CardFooter, CardHeader } from '../ui/card';
+import { PorjectLoader } from './PorjectLoader';
 
 export const AllProjects = () => {
   const [projects, setProjects] = useState<Project[] | []>([]);
@@ -34,9 +33,9 @@ export const AllProjects = () => {
 
   return (
     <div className="mt-4">
-      {projects.length > 0 && (
+      {projects.length > 0 ? (
         <>
-          <div className="grid grid-cols-3 gap-4 mb-4">
+          <div className="grid grid-cols-1 gap-4 mb-4 sm:grid-cols-2 lg:grid-cols-3">
             {projects.map((project) => (
               <SingleProjectCard key={project.id} project={project} />
             ))}
@@ -46,36 +45,15 @@ export const AllProjects = () => {
             <Button variant={'secondary'}>See All Projects</Button>
           </div>
         </>
-      )}
+      ) : null}
 
-      {loading && (
-        <div>
-          <div className="grid grid-cols-3 gap-4 mb-4">
-            {[1, 2, 3].map((item, idx) => (
-              <Card key={idx} className="w-[330px] h-[348.81px]">
-                <CardHeader>
-                  <Skeleton className="w-[120px] h-6" />
-                </CardHeader>
-                <CardContent>
-                  <Skeleton className="w-[280px] h-[186.81px]" />
-                </CardContent>
-                <CardFooter>
-                  <Skeleton className="w-[116.09px] h-10" />
-                </CardFooter>
-              </Card>
-            ))}
-          </div>
-          <div className="flex items-center justify-center">
-            <Skeleton className="w-[136.38px] h-10" />
-          </div>
-        </div>
-      )}
+      {loading ? <PorjectLoader /> : null}
 
-      {projects.length === 0 && !loading && (
+      {projects.length === 0 && !loading ? (
         <p className="py-6 text-sm font-semibold text-center text-muted-foreground/50">
           No projects found.
         </p>
-      )}
+      ) : null}
     </div>
   );
 };
