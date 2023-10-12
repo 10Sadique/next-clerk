@@ -1,3 +1,8 @@
+import axios from 'axios';
+import { toast } from 'sonner';
+import { Trash2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -9,22 +14,21 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
-import { Button, buttonVariants } from '../ui/button';
-import { Trash2 } from 'lucide-react';
-import axios, { AxiosError } from 'axios';
-import { toast } from 'sonner';
+import { Button, buttonVariants } from '@/components/ui/button';
 
 interface IDeleteProjectDialog {
   id: string;
 }
 
 export const DeleteProjectDialog: React.FC<IDeleteProjectDialog> = ({ id }) => {
+  const router = useRouter();
   const handleDelete = async () => {
     try {
       const { data } = await axios.delete(`/api/v1/projects/${id}`);
 
       if (data.success) {
         toast.success('Project deleted successfully.');
+        router.back();
       }
     } catch (error: any) {
       toast.error(error.message);

@@ -30,6 +30,7 @@ const formSchema = z.object({
   gitHub: z.string().min(10),
   live: z.string().min(10),
   technologies: z.string().min(10),
+  mainImage: z.string().optional(),
 });
 
 export type ProjectFormType = z.infer<typeof formSchema>;
@@ -51,18 +52,18 @@ export const AddProjectForm = () => {
     },
   });
 
-  const onSubmit = async (data: ProjectFormType) => {
+  const onSubmit = async (values: ProjectFormType) => {
     try {
       setLoading(true);
 
-      const res = await axios.post('/api/v1/projects/new', {
-        ...data,
+      const { data } = await axios.post('/api/v1/projects/new', {
+        ...values,
         mainImage: image,
       });
 
-      if (res.status === 201) {
-        router.push('/dashboard');
-        toast.success('Project Created.');
+      if (data.success) {
+        router.push(`/dashboard/project/${data.project.id}`);
+        toast.success(data?.message);
       }
     } catch (error) {
       if (error instanceof AxiosError) {

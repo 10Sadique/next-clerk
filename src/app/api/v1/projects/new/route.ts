@@ -1,6 +1,7 @@
-import { ProjectFormType } from '@/components/forms/AddProjectForm';
-import db from '@/lib/db';
 import { NextResponse } from 'next/server';
+
+import db from '@/lib/db';
+import { ProjectFormType } from '@/components/forms/AddProjectForm';
 
 export async function POST(req: Request) {
   const body: ProjectFormType = await req.json();
@@ -12,7 +13,7 @@ export async function POST(req: Request) {
     data: {
       name,
       description,
-      mainImage,
+      mainImage: mainImage!,
     },
   });
 
@@ -33,5 +34,12 @@ export async function POST(req: Request) {
     });
   });
 
-  return new NextResponse('Project created.', { status: 201 });
+  return NextResponse.json(
+    {
+      success: true,
+      project,
+      message: 'Project created.',
+    },
+    { status: 201 }
+  );
 }
