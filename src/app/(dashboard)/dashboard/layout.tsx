@@ -7,7 +7,7 @@ function DashboardLayout({ children }: { children: React.ReactNode }) {
     <div className="flex flex-col min-h-screen">
       <Navbar />
       <div className="container flex-1 items-start md:grid md:grid-cols-[220px_minmax(0,1fr)] md:gap-6 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-10">
-        <aside className="shrink-0 overflow-y-auto w-full border-r h-[calc(100vh-49px)] hidden md:block md:sticky top-[57px] z-30 -ml-2">
+        <aside className="shrink-0 overflow-y-auto w-full border-r h-[calc(100vh-49px)] hidden md:block md:sticky top-[49px] z-30 -ml-2">
           <ScrollArea className="py-6 pr-6 lg:py-8">
             <SideNav />
           </ScrollArea>
