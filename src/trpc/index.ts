@@ -1,9 +1,14 @@
 import { z } from 'zod';
-import { useAuth } from '@clerk/nextjs';
 
 import db from '@/lib/db';
-import { router } from './trpc';
+import { privateProcedure, publicProcedure, router } from './trpc';
 
-export const appRouter = router({});
+export const appRouter = router({
+  getAllSkills: publicProcedure.query(async () => {
+    const skills = await db.skill.findMany();
+
+    return { success: true, skills };
+  }),
+});
 
 export type AppRouter = typeof appRouter;

@@ -1,4 +1,3 @@
-import { ClerkProvider } from '@clerk/nextjs';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 
@@ -8,6 +7,7 @@ import { Toaster } from '@/providers/toast-provider';
 import './globals.css';
 import { useServerSession } from '@/hooks/useServerSession';
 import { AuthProvider } from '@/providers/auth-provider';
+import { TRPCProvider } from '@/providers/trpc-provider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -24,15 +24,17 @@ export default async function RootLayout({
   const session = await useServerSession();
   return (
     <AuthProvider session={session}>
-      <html lang="en">
-        <body className={inter.className}>
-          <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
-            <Toaster />
-            <NavbarProvider />
-            {children}
-          </ThemeProvider>
-        </body>
-      </html>
+      <TRPCProvider>
+        <html lang="en">
+          <body className={inter.className}>
+            <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+              <Toaster />
+              <NavbarProvider />
+              {children}
+            </ThemeProvider>
+          </body>
+        </html>
+      </TRPCProvider>
     </AuthProvider>
   );
 }
