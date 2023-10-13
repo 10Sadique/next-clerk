@@ -72,3 +72,11 @@ model Technology {
   Project   Project? @relation(fields: [projectId], references: [id], onDelete: Cascade)
   projectId String?  @db.ObjectId
 }
+
+model Skill {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  name  String
+  image String
+
+  level String
+}
