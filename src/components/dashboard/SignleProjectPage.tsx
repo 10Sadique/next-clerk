@@ -86,7 +86,7 @@ export const SignleProjectPage = ({ id }: { id: string }) => {
 
       <div>
         <h3 className="text-2xl font-bold">Overview</h3>
-        <ReactMarkdown className="prose text-foreground">
+        <ReactMarkdown className="prose prose-headings:text-foreground prose-strong:text-foreground prose-p:text-foreground text-foreground">
           {project?.description!}
         </ReactMarkdown>
       </div>
