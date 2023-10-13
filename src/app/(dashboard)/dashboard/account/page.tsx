@@ -1,4 +1,4 @@
-import { UserProfile } from '@/components/UserProfile';
+import { UserProfile } from '@/components/dashboard/account/UserProfile';
 import { Heading } from '@/components/ui/header';
 
 const Profile = () => {

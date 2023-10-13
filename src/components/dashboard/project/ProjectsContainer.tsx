@@ -4,7 +4,7 @@ import { Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { SubHeading } from '@/components/ui/sub-heading';
-import { AllProjects } from '@/components/dashboard/AllProjects';
+import { AllProjects } from '@/components/dashboard/project/AllProjects';
 
 export const ProjectsContainer = () => {
   return (
@@ -22,7 +22,7 @@ export const ProjectsContainer = () => {
 
       <Separator />
 
-      <AllProjects />
+      <AllProjects display="THREE" />
     </div>
   );
 };

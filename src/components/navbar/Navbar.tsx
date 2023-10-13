@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
-import { NavLinks } from '@/components/NavLinks';
-import { UserDropdownMenu } from '@/components/UserDropdownMenu';
+import { NavLinks } from '@/components/navbar/NavLinks';
+import { UserDropdownMenu } from '@/components/navbar/UserDropdownMenu';
 import { siteConfig } from '@/config/site-config';
 
 export default function Navbar() {

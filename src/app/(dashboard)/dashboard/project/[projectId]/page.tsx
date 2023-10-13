@@ -1,4 +1,4 @@
-import { SignleProjectPage } from '@/components/dashboard/SignleProjectPage';
+import { SignleProjectPage } from '@/components/dashboard/project/SignleProjectPage';
 
 export default async function SingleProject({
   params: { projectId },

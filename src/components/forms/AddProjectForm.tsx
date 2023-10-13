@@ -21,7 +21,7 @@ import { trpc } from '@/app/_trpc/client';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { ImageUploadButton } from '@/components/ImageUploadButton';
+import { ImageUploadButton } from '@/components/dashboard/project/ImageUploadButton';
 
 export const AddProjectSchema = z.object({
   name: z.string().min(3),

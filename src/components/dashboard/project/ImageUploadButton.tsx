@@ -4,7 +4,7 @@ import { Dispatch, SetStateAction, useState } from 'react';
 
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { ImageUploadDropzone } from '@/components/ImageUploadDropzone';
+import { ImageUploadDropzone } from '@/components/dashboard/project/ImageUploadDropzone';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 
 type TImageUploadButton = {

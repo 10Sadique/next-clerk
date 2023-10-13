@@ -5,7 +5,7 @@ import { Plus } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { SubHeading } from '@/components/ui/sub-heading';
-import { AllSkills } from '@/components/dashboard/AllSkills';
+import { AllSkills } from '@/components/dashboard/skill/AllSkills';
 
 export const SkillsContainer = () => {
   return (

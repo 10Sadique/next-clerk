@@ -55,7 +55,11 @@ export const SignleProjectPage = ({ id }: { id: string }) => {
 
   return (
     <div className="py-6 space-y-6 lg:py-8 lg:space-y-8">
-      <Button onClick={() => router.back()} type="button" variant={'ghost'}>
+      <Button
+        onClick={() => router.push('/dashboard')}
+        type="button"
+        variant={'ghost'}
+      >
         <ChevronLeft className="w-4 h-4 mr-2" />
         Back
       </Button>

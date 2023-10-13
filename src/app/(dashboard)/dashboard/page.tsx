@@ -1,6 +1,6 @@
-import { ProjectsContainer } from '@/components/dashboard/ProjectsContainer';
-import { SkillsContainer } from '@/components/dashboard/SkillsContainer';
 import { Heading } from '@/components/ui/header';
+import { SkillsContainer } from '@/components/dashboard/skill/SkillsContainer';
+import { ProjectsContainer } from '@/components/dashboard/project/ProjectsContainer';
 
 function Dashboard() {
   return (

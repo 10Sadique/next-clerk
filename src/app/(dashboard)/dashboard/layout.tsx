@@ -1,5 +1,5 @@
-import Navbar from '@/components/Navbar';
-import { SideNav } from '@/components/SideNav';
+import Navbar from '@/components/navbar/Navbar';
+import { SideNav } from '@/components/dashboard/SideNav';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useServerSession } from '@/hooks/useServerSession';
 import { redirect } from 'next/navigation';
