@@ -2,23 +2,26 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { Link as LinkIcon } from 'lucide-react';
+import { ChevronLeft, Link as LinkIcon } from 'lucide-react';
 import { ReactMarkdown } from 'react-markdown/lib/react-markdown';
 
 import { trpc } from '@/app/_trpc/client';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
-import { buttonVariants } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { DeleteProjectDialog } from './DeleteProjectDialog';
+import { useRouter } from 'next/navigation';
 
 export const SignleProjectPage = ({ id }: { id: string }) => {
   const { data, isLoading } = trpc.getProjectById.useQuery({ id });
+  const router = useRouter();
 
   const project = data?.project;
 
   if (isLoading) {
     return (
       <div className="py-6 space-y-6 lg:py-8 lg:space-y-8">
+        <Skeleton className="h-[40px] w-[88.88px] rounded-md" />
         <Skeleton className="h-[400px] rounded-md w-full mb-6" />
         <div className="flex items-center justify-between">
           <Skeleton className="mb-3 rounded-md w-60 h-9" />
@@ -52,6 +55,10 @@ export const SignleProjectPage = ({ id }: { id: string }) => {
 
   return (
     <div className="py-6 space-y-6 lg:py-8 lg:space-y-8">
+      <Button onClick={() => router.back()} type="button" variant={'ghost'}>
+        <ChevronLeft className="w-4 h-4 mr-2" />
+        Back
+      </Button>
       <Image
         src={project?.mainImage!}
         alt={project?.name!}
