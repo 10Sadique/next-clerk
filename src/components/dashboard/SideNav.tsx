@@ -1,7 +1,13 @@
 'use client';
 
 import { cn } from '@/lib/utils';
-import { FileCode, Settings, User } from 'lucide-react';
+import {
+  Code,
+  LayoutDashboard,
+  Presentation,
+  Settings,
+  User,
+} from 'lucide-react';
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -10,19 +16,31 @@ export const SideNav = () => {
   const pathname = usePathname();
   const routes = [
     {
+      id: 2,
+      label: 'Dashboard',
+      href: '/dashboard',
+      icon: <LayoutDashboard className="w-4 h-4 mr-2" />,
+    },
+    {
+      id: 3,
+      label: 'Projects',
+      href: '/dashboard/project/all',
+      icon: <Presentation className="w-4 h-4 mr-2" />,
+    },
+    {
+      id: 5,
+      label: 'Skills',
+      href: '/dashboard/code/all',
+      icon: <Code className="w-4 h-4 mr-2" />,
+    },
+    {
       id: 1,
       label: 'Account',
       href: '/dashboard/account',
       icon: <User className="w-4 h-4 mr-2" />,
     },
     {
-      id: 2,
-      label: 'Dashboard',
-      href: '/dashboard',
-      icon: <FileCode className="w-4 h-4 mr-2" />,
-    },
-    {
-      id: 3,
+      id: 4,
       label: 'Settings',
       href: '/dashboard/settings',
       icon: <Settings className="w-4 h-4 mr-2" />,
