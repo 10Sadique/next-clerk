@@ -9,7 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 
 export const SingleProjectCard = ({ project }: { project: Project }) => {
   return (
@@ -27,8 +27,14 @@ export const SingleProjectCard = ({ project }: { project: Project }) => {
         />
       </CardContent>
       <CardFooter>
-        <Link href={`/dashboard/project/${project.id}`}>
-          <Button>View Project</Button>
+        <Link
+          className={buttonVariants({
+            className: 'w-full font-semibold text-sm',
+            size: 'sm',
+          })}
+          href={`/dashboard/project/${project.id}`}
+        >
+          View Project
         </Link>
       </CardFooter>
     </Card>

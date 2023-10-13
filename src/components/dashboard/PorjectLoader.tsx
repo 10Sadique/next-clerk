@@ -11,15 +11,15 @@ export const PorjectLoader = () => {
     <div>
       <div className="grid grid-cols-3 gap-4 mb-4">
         {[1].map((item, idx) => (
-          <Card key={idx} className="w-[330px] h-[348.81px]">
+          <Card key={idx} className="w-[288px] h-max">
             <CardHeader>
               <Skeleton className="w-[120px] h-6" />
             </CardHeader>
             <CardContent>
-              <Skeleton className="w-[280px] h-[186.81px]" />
+              <Skeleton className="lg:w-[240px] lg:h-[135px] h-full w-full" />
             </CardContent>
             <CardFooter>
-              <Skeleton className="w-[116.09px] h-10" />
+              <Skeleton className="w-full h-9 " />
             </CardFooter>
           </Card>
         ))}
