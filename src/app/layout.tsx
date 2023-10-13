@@ -8,6 +8,7 @@ import './globals.css';
 import { useServerSession } from '@/hooks/useServerSession';
 import { AuthProvider } from '@/providers/auth-provider';
 import { TRPCProvider } from '@/providers/trpc-provider';
+import { cn } from '@/lib/utils';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -26,7 +27,7 @@ export default async function RootLayout({
     <AuthProvider session={session}>
       <TRPCProvider>
         <html lang="en">
-          <body className={inter.className}>
+          <body className={cn(inter.className, 'scrollbar')}>
             <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
               <Toaster />
               <NavbarProvider />

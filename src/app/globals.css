@@ -91,21 +91,21 @@
 }
 
 /* width */
-::-webkit-scrollbar {
+.scrollbar::-webkit-scrollbar {
   width: 6px;
 }
 
 /* Track */
-::-webkit-scrollbar-track {
-  @apply bg-transparent;
+.scrollbar::-webkit-scrollbar-track {
+  @apply bg-zinc-100 dark:bg-zinc-800;
 }
 
 /* Handle */
-::-webkit-scrollbar-thumb {
+.scrollbar::-webkit-scrollbar-thumb {
   @apply rounded-full bg-muted-foreground;
 }
 
-::-webkit-scrollbar-thumb:hover {
+.scrollbar::-webkit-scrollbar-thumb:hover {
   @apply bg-foreground;
 }
 
