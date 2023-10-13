@@ -1,19 +1,27 @@
+import { useServerSession } from '@/hooks/useServerSession';
+import db from '@/lib/db';
 import { TRPCError, initTRPC } from '@trpc/server';
-import { useAuth } from '@clerk/nextjs';
 
 const t = initTRPC.create();
 const middleware = t.middleware;
 
 const isAuth = middleware(async (opts) => {
-  const { userId } = useAuth();
+  const session = await useServerSession();
 
-  if (!userId) {
+  const userId = await db.user.findUnique({
+    where: { email: session?.user?.email! },
+  });
+
+  const user = session?.user;
+
+  if (!userId || !user) {
     throw new TRPCError({ code: 'UNAUTHORIZED' });
   }
 
   return opts.next({
     ctx: {
       userId,
+      user,
     },
   });
 });
