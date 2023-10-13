@@ -1,13 +1,8 @@
-import {
-  Card,
-  CardTitle,
-  CardHeader,
-  CardContent,
-  CardDescription,
-} from '@/components/ui/card';
+import { redirect } from 'next/navigation';
 import { SignUpForm } from '@/components/forms/SignUpForm';
 
 const SignUp = () => {
+  redirect('/signin');
   return (
     <div className="container flex items-center justify-center h-full">
       <div className="w-[400px]">
