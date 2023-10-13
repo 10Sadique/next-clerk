@@ -1,58 +1,22 @@
 'use client';
 
-import axios from 'axios';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Link as LinkIcon } from 'lucide-react';
-import { useCallback, useEffect, useState } from 'react';
-
-import { buttonVariants } from '../ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Skeleton } from '@/components/ui/skeleton';
-import { DeleteProjectDialog } from './DeleteProjectDialog';
 import { ReactMarkdown } from 'react-markdown/lib/react-markdown';
 
-type ITechnology = {
-  id: string;
-  name: string;
-  projectId: string;
-};
-
-interface IProject {
-  id: string;
-  name: string;
-  description: string;
-  mainImage: string;
-  links: {
-    github: string;
-    id: string;
-    liveLink: string;
-    projectId: string;
-  }[];
-  technologies: ITechnology[];
-}
+import { trpc } from '@/app/_trpc/client';
+import { Badge } from '@/components/ui/badge';
+import { Skeleton } from '@/components/ui/skeleton';
+import { buttonVariants } from '@/components/ui/button';
+import { DeleteProjectDialog } from './DeleteProjectDialog';
 
 export const SignleProjectPage = ({ id }: { id: string }) => {
-  const [project, setProject] = useState<IProject | null>(null);
-  const [loading, setLoading] = useState(true);
+  const { data, isLoading } = trpc.getProjectById.useQuery({ id });
 
-  const getProjcet = useCallback(async () => {
-    try {
-      setLoading(true);
+  const project = data?.project;
 
-      const res = await axios.get(`/api/v1/projects/${id}`);
-      setProject(res.data.project);
-    } catch (error) {
-    } finally {
-      setLoading(false);
-    }
-  }, [id]);
-
-  useEffect(() => {
-    getProjcet();
-  }, [getProjcet]);
-
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="py-6 space-y-6 lg:py-8 lg:space-y-8">
         <Skeleton className="h-[400px] rounded-md w-full mb-6" />

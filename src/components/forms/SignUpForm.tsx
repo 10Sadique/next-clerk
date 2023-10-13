@@ -1,13 +1,12 @@
 'use client';
 
 import * as z from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { Loader2 } from 'lucide-react';
-import { useState } from 'react';
-import { redirect, useRouter } from 'next/navigation';
-
 import { toast } from 'sonner';
+import { Loader2 } from 'lucide-react';
+import { useForm } from 'react-hook-form';
+import { useSession } from 'next-auth/react';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { redirect, useRouter } from 'next/navigation';
 
 import {
   Form,
@@ -17,10 +16,9 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import { trpc } from '@/app/_trpc/client';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import axios, { AxiosError } from 'axios';
-import { useSession } from 'next-auth/react';
 
 const formSchema = z.object({
   email: z
@@ -44,7 +42,6 @@ type SignUpSchemaType = z.infer<typeof formSchema>;
 
 export const SignUpForm = () => {
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
 
   const { status } = useSession();
 
@@ -63,25 +60,22 @@ export const SignUpForm = () => {
     },
   });
 
+  const { mutate: createUser, isLoading } = trpc.createUser.useMutation({
+    onSuccess: () => {
+      toast.success('Account successfully created.');
+      router.push('/signin');
+    },
+    onError(opts) {
+      toast.error(opts.message);
+    },
+  });
+
   const onSubmit = async (vales: SignUpSchemaType) => {
-    setIsLoading(true);
-
-    try {
-      const { data } = await axios.post(`/api/register`, {
-        name: `${vales.firstName} ${vales.lastName}`,
-        email: vales.email,
-        password: vales.password,
-      });
-
-      if (data?.success) {
-        toast.success('Account successfully created.');
-        router.push('/signin');
-      }
-    } catch (error) {
-      if (error instanceof AxiosError) toast.error(error.response?.data);
-    } finally {
-      setIsLoading(false);
-    }
+    createUser({
+      name: `${vales.firstName} ${vales.lastName}`,
+      email: vales.email,
+      password: vales.password,
+    });
   };
 
   return (

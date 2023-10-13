@@ -1,11 +1,9 @@
 'use client';
 
 import * as z from 'zod';
-import axios from 'axios';
 import Link from 'next/link';
 import { toast } from 'sonner';
 import { useState } from 'react';
-import { AxiosError } from 'axios';
 import { Loader2 } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
@@ -19,12 +17,13 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { Button } from '../ui/button';
-import { Textarea } from '../ui/textarea';
+import { trpc } from '@/app/_trpc/client';
 import { Input } from '@/components/ui/input';
-import { ImageUploadButton } from '../ImageUploadButton';
+import { Button } from '@/components/ui/button';
+import { Textarea } from '@/components/ui/textarea';
+import { ImageUploadButton } from '@/components/ImageUploadButton';
 
-const formSchema = z.object({
+export const AddProjectSchema = z.object({
   name: z.string().min(3),
   description: z.string().min(10),
   gitHub: z.string().min(10),
@@ -33,16 +32,15 @@ const formSchema = z.object({
   mainImage: z.string().optional(),
 });
 
-export type ProjectFormType = z.infer<typeof formSchema>;
+export type ProjectFormType = z.infer<typeof AddProjectSchema>;
 
 export const AddProjectForm = () => {
-  const [loading, setLoading] = useState(false);
   const [image, setImage] = useState<string | null>(null);
 
   const router = useRouter();
 
   const form = useForm<ProjectFormType>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(AddProjectSchema),
     defaultValues: {
       name: '',
       description: '',
@@ -52,26 +50,23 @@ export const AddProjectForm = () => {
     },
   });
 
+  const { mutate: addProject, isLoading } = trpc.addProject.useMutation({
+    onSuccess: ({ project, message }) => {
+      router.push(`/dashboard/project/${project.id}`);
+      toast.success(message);
+    },
+    onError: () => {
+      toast.error('Failed to create project, try again.');
+    },
+  });
+
   const onSubmit = async (values: ProjectFormType) => {
-    try {
-      setLoading(true);
-
-      const { data } = await axios.post('/api/v1/projects/new', {
-        ...values,
-        mainImage: image,
-      });
-
-      if (data.success) {
-        router.push(`/dashboard/project/${data.project.id}`);
-        toast.success(data?.message);
-      }
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        toast.error(error.message);
-      }
-    } finally {
-      setLoading(false);
+    if (image === null) {
+      toast.error('No image selected.');
+      return;
     }
+
+    addProject({ ...values, mainImage: image });
   };
 
   return (
@@ -176,8 +171,8 @@ export const AddProjectForm = () => {
                 Cancel
               </Button>
             </Link>
-            <Button disabled={loading} type="submit" className="w-52">
-              {loading && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
+            <Button disabled={isLoading} type="submit" className="w-52">
+              {isLoading && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
               Add Project
             </Button>
           </div>

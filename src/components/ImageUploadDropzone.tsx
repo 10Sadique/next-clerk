@@ -99,13 +99,6 @@ export const ImageUploadDropzone = ({
                   ) : null}
                 </div>
               ) : null}
-
-              <input
-                {...getInputProps()}
-                type="file"
-                id="dropzone-file"
-                className="hidden"
-              />
             </label>
           </div>
         </div>

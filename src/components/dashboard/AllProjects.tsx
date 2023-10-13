@@ -1,42 +1,45 @@
 'use client';
 
-import axios from 'axios';
 import { toast } from 'sonner';
-import { useCallback, useEffect, useState } from 'react';
 
-import { Project } from '@/types';
+import { trpc } from '@/app/_trpc/client';
 import { Button } from '@/components/ui/button';
+import { PorjectLoader } from '@/components/dashboard/PorjectLoader';
 import { SingleProjectCard } from '@/components/dashboard/SingleProjectCard';
-import { Loader2 } from 'lucide-react';
-import { PorjectLoader } from './PorjectLoader';
 
 export const AllProjects = () => {
-  const [projects, setProjects] = useState<Project[] | []>([]);
-  const [loading, setLoading] = useState(true);
+  const { data, isLoading } = trpc.getAllProjects.useQuery(undefined, {
+    retry: true,
+    retryDelay: 500,
+    onError: () => {
+      toast.error('Failed to load projects.');
+    },
+  });
 
-  const getProjects = useCallback(async () => {
-    try {
-      setLoading(true);
-      const res = await axios.get('/api/v1/projects');
-      setProjects(res.data);
-      // setProjects(res.data.slice(0, 3));
-    } catch (error) {
-      toast.error('Faild to load projects.');
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+  if (isLoading) {
+    return (
+      <div className="mt-4">
+        <PorjectLoader />
+      </div>
+    );
+  }
 
-  useEffect(() => {
-    getProjects();
-  }, [getProjects]);
+  if (data?.projects.length === 0 && !isLoading) {
+    return (
+      <div>
+        <p className="py-6 text-sm font-semibold text-center text-muted-foreground/50">
+          No projects found.
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="mt-4">
-      {projects.length > 0 ? (
+      {data?.projects.length! > 0 ? (
         <>
           <div className="grid grid-cols-1 gap-4 mb-4 sm:grid-cols-2 lg:grid-cols-3">
-            {projects.map((project) => (
+            {data?.projects.map((project) => (
               <SingleProjectCard key={project.id} project={project} />
             ))}
           </div>
@@ -45,14 +48,6 @@ export const AllProjects = () => {
             <Button variant={'secondary'}>See All Projects</Button>
           </div>
         </>
-      ) : null}
-
-      {loading ? <PorjectLoader /> : null}
-
-      {projects.length === 0 && !loading ? (
-        <p className="py-6 text-sm font-semibold text-center text-muted-foreground/50">
-          No projects found.
-        </p>
       ) : null}
     </div>
   );

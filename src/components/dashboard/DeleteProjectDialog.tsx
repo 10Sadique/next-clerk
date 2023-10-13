@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { toast } from 'sonner';
 import { Trash2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -15,6 +14,7 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { Button, buttonVariants } from '@/components/ui/button';
+import { trpc } from '@/app/_trpc/client';
 
 interface IDeleteProjectDialog {
   id: string;
@@ -22,18 +22,13 @@ interface IDeleteProjectDialog {
 
 export const DeleteProjectDialog: React.FC<IDeleteProjectDialog> = ({ id }) => {
   const router = useRouter();
-  const handleDelete = async () => {
-    try {
-      const { data } = await axios.delete(`/api/v1/projects/${id}`);
 
-      if (data.success) {
-        toast.success('Project deleted successfully.');
-        router.back();
-      }
-    } catch (error: any) {
-      toast.error(error.message);
-    }
-  };
+  const { mutate: deleteProject } = trpc.deleteProjectById.useMutation({
+    onSuccess: () => {
+      toast.success('Project deleted successfully.');
+      router.back();
+    },
+  });
 
   return (
     <AlertDialog>
@@ -55,7 +50,7 @@ export const DeleteProjectDialog: React.FC<IDeleteProjectDialog> = ({ id }) => {
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction
-            onClick={handleDelete}
+            onClick={() => deleteProject({ id })}
             className={buttonVariants({ variant: 'destructive' })}
           >
             Delete
