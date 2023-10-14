@@ -30,7 +30,7 @@ export const SideNav = () => {
     {
       id: 5,
       label: 'Skills',
-      href: '/dashboard/code/all',
+      href: '/dashboard/skill/all',
       icon: <Code className="w-4 h-4 mr-2" />,
     },
     {
