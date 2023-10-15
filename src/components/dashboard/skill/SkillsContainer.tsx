@@ -23,7 +23,7 @@ export const SkillsContainer = () => {
 
       <Separator />
 
-      <AllSkills />
+      <AllSkills display="THREE" />
     </div>
   );
 };

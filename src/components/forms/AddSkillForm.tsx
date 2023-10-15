@@ -1,8 +1,10 @@
 'use client';
 import { z } from 'zod';
+import { toast } from 'sonner';
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { Loader2 } from 'lucide-react';
 import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import {
@@ -13,14 +15,13 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { ImageIcon } from 'lucide-react';
-import { Input } from '../ui/input';
-import { Slider } from '../ui/slider';
-import { Button } from '../ui/button';
+import { trpc } from '@/app/_trpc/client';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { SkillImageUploadButton } from '@/components/dashboard/skill/SkillImageUploadButton';
 
 const AddSkillSchema = z.object({
   name: z.string().min(1),
-  image: z.string().url().optional(),
   level: z.string().min(1),
 });
 
@@ -35,22 +36,34 @@ export const AddSkillForm = () => {
     resolver: zodResolver(AddSkillSchema),
     defaultValues: {
       name: '',
-      image: '',
       level: '',
     },
   });
 
+  const { mutate: addSkill, isLoading } = trpc.addSkill.useMutation({
+    onSuccess: ({ skill, success }) => {
+      router.push(`/dashboard/skill/${skill.id}`);
+      toast.success('Skill added.');
+    },
+    onError() {
+      toast.error('Something went wrong.');
+    },
+  });
+
   const onSubmit = async (data: SkillFormType) => {
-    console.log({ ...data, image: 'skill.com' });
+    if (skillImage === null) {
+      toast.error('No image selected.');
+      return;
+    }
+
+    addSkill({ ...data, image: skillImage });
   };
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="mt-4 space-y-4">
         <div className="flex flex-row gap-4">
-          <div className="flex items-center justify-center w-32 h-32 border rounded-md bg-zinc-200 dark:bg-zinc-900">
-            <ImageIcon className="w-8 h-8 text-zinc-400 dark:text-zinc-600" />
-          </div>
+          <SkillImageUploadButton image={skillImage} setImage={setSkillImage} />
           <div className="flex-1 space-y-4 ">
             <div className="grid grid-cols-2 gap-4">
               <FormField
@@ -80,7 +93,8 @@ export const AddSkillForm = () => {
                 )}
               />
             </div>
-            <Button type="submit" className="w-auto">
+            <Button type="submit" className="w-52">
+              {isLoading && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
               Add Skill
             </Button>
           </div>
