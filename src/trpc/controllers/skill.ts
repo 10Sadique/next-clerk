@@ -6,7 +6,11 @@ import { AddSkillSchema } from '@/trpc/trpcSchema';
 
 export const skill = {
   getAllSkills: publicProcedure.query(async () => {
-    const skills = await db.skill.findMany();
+    const skills = await db.skill.findMany({
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
 
     return { success: true, skills };
   }),
