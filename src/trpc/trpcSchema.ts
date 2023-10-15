@@ -19,3 +19,9 @@ export const AddUserSchema = z.object({
     .regex(new RegExp('^(?=.*[A-Z])(?=.*[0-9])(?=.*[a-zA-Z]).{8,}$')),
   name: z.string(),
 });
+
+export const AddSkillSchema = z.object({
+  name: z.string(),
+  level: z.string(),
+  image: z.string(),
+});
