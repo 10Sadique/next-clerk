@@ -33,7 +33,7 @@ export const SkillImageUploadButton = ({
           variant={'ghost'}
           className={cn(
             'flex items-center justify-center border rounded-md w-36 h-36 bg-zinc-200 dark:bg-zinc-900',
-            image ? 'p-0 h-max' : ''
+            image ? 'p-5 h-36   bg-white rounded-md' : ''
           )}
         >
           {image === null ? (
@@ -44,7 +44,7 @@ export const SkillImageUploadButton = ({
               alt="skill image"
               width={144}
               height={144}
-              className="object-cover w-full h-full rounded-md"
+              className="rounded-md "
             />
           )}
         </Button>
