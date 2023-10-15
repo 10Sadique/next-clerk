@@ -24,7 +24,7 @@ export const AllProjects = ({ display }: AllProjectsProps) => {
   if (isLoading) {
     return (
       <div className="mt-4">
-        <PorjectLoader />
+        <PorjectLoader display={display} />
       </div>
     );
   }

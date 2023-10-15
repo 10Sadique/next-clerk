@@ -23,7 +23,7 @@ export const SingleProjectCard = ({ project }: { project: Project }) => {
           alt={project.name}
           height={400}
           width={400}
-          className="object-cover lg:w-[240px] lg:h-[135px] h-full w-full rounded-md"
+          className="object-cover  lg:h-[150px] h-full w-full rounded-md"
         />
       </CardContent>
       <CardFooter>
