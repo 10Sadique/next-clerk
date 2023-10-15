@@ -1,3 +1,9 @@
+import { AllSkills } from '@/components/dashboard/skill/AllSkills';
+
 export default function Page() {
-  return <div>Page</div>;
+  return (
+    <div>
+      <AllSkills display="ALL" />
+    </div>
+  );
 }
