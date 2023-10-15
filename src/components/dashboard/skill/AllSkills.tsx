@@ -2,7 +2,11 @@
 
 import { trpc } from '@/app/_trpc/client';
 
-export const AllSkills = () => {
+type AllSkillsProps = {
+  display: 'THREE' | 'ALL';
+};
+
+export const AllSkills = ({ display }: AllSkillsProps) => {
   const { data, isLoading } = trpc.getAllSkills.useQuery();
 
   if (isLoading) {
@@ -19,5 +23,11 @@ export const AllSkills = () => {
     );
   }
 
-  return <div className="mt-4">AllSkills</div>;
+  return (
+    <div className="mt-4">
+      {data?.skills.map((skill) => (
+        <div key={skill.id}>{skill.name}</div>
+      ))}
+    </div>
+  );
 };
