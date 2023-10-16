@@ -1,6 +1,6 @@
 export default function Home() {
   return (
-    <div>
+    <div className="antialiased transition-all">
       <div className="isolate">
         <div
           aria-hidden="true"
