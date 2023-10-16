@@ -10,6 +10,8 @@ export const appRouter = router({
   // skill
   getAllSkills: skill.getAllSkills,
   addSkill: skill.addSkill,
+  getSkillById: skill.getSkillById,
+  deleteSkillById: skill.deleteSkillById,
 
   // project
   addProject: project.addProject,
