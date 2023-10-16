@@ -4,6 +4,8 @@ import { trpc } from '@/app/_trpc/client';
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
+import { SingleSkillCard } from './SingleSkillCard';
+import { SkillsLoading } from './SkillsLoading';
 
 type AllSkillsProps = {
   display: 'THREE' | 'ALL';
@@ -16,7 +18,16 @@ export const AllSkills = ({ display }: AllSkillsProps) => {
   });
 
   if (isLoading) {
-    return <div className="mt-4">Loading...</div>;
+    return (
+      <div
+        className={cn(
+          'grid grid-cols-1 gap-4 mt-4  lg:grid-cols-3 sm:grid-cols-2',
+          display === 'THREE' ? 'mb-4' : ''
+        )}
+      >
+        <SkillsLoading />
+      </div>
+    );
   }
 
   if (data?.skills.length === 0 && !isLoading) {
@@ -40,7 +51,9 @@ export const AllSkills = ({ display }: AllSkillsProps) => {
         )}
       >
         {skills &&
-          skills.map((skill) => <div key={skill.id}>{skill.name}</div>)}
+          skills.map((skill) => (
+            <SingleSkillCard key={skill.id} skill={skill} />
+          ))}
       </div>
 
       {display === 'THREE' ? (
