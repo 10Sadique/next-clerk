@@ -29,7 +29,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="relative z-20 flex items-center justify-center h-[calc(100vh-4rem)]">
+      <div className="relative z-20 flex items-center justify-center min-h-[calc(100vh-4rem)]">
         Hello
       </div>
     </div>
