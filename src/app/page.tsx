@@ -30,7 +30,9 @@ export default function Home() {
       </div>
 
       <div className="relative z-20 flex items-center justify-center min-h-[calc(100vh-4rem)]">
-        Hello
+        <p className="px-5 py-1 text-sm transition-colors rounded-full bg-foreground/70 hover:bg-foreground/80 text-muted">
+          LET&apos;S BUILD SOMTHING AMAZING TOGETHER
+        </p>
       </div>
     </div>
   );
