@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
+import { SkillProgress } from '@/components/ui/skill-progress';
 
 type TSingleSkillCard = {
   skill: {
@@ -32,14 +33,7 @@ export const SingleSkillCard = ({ skill }: TSingleSkillCard) => {
         </div>
         <div className="flex-1">
           <h2 className="mb-4 text-lg font-bold">{skill.name}</h2>
-          <div className="w-full h-3 mb-3 rounded-full bg-muted-foreground/30">
-            <div
-              className={cn(
-                'h-full rounded-full bg-black dark:bg-white ',
-                `w-[${parseInt(skill.level)}%]`
-              )}
-            />
-          </div>
+          <SkillProgress className="mb-2" value={parseInt(skill.level)} />
           <span className="px-3 py-1 text-xs rounded-full bg-muted">
             {skill.level}%
           </span>
