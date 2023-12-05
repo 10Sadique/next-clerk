@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 4000",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -39,11 +39,10 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "eslint": "8.45.0",
-    "eslint-config-next": "13.5.4",
+    "eslint-config-next": "14.0.3",
     "lucide-react": "^0.261.0",
-    "next": "13.5.4",
-    "next-auth": "^4.23.2",
-    "next-cloudinary": "^4.24.0",
+    "next": "14.0.3",
+    "next-auth": "^4.24.5",
     "next-themes": "^0.2.1",
     "postcss": "8.4.26",
     "react": "18.2.0",
