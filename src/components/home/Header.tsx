@@ -1,14 +1,15 @@
 import { Download, Github, Linkedin, Mail } from 'lucide-react';
-import { Button } from '../ui/button';
+import { Button, buttonVariants } from '../ui/button';
 import { HeaderTilt } from './HeaderTilt';
+import Link from 'next/link';
 
 export const Header = () => {
   return (
     <div className="relative z-20 flex justify-between items-center container min-h-[calc(100vh-4rem)]">
       <div>
-        <p className="inline-block px-5 py-1 text-xs transition-colors rounded-full bg-foreground/70 hover:bg-foreground/80 text-muted w-max">
+        {/* <p className="inline-block px-5 py-1 text-xs transition-colors rounded-full bg-foreground/70 hover:bg-foreground/80 text-muted w-max">
           LET&apos;S BUILD SOMTHING AMAZING TOGETHER
-        </p>
+        </p> */}
 
         <h1 className="mt-6 text-6xl font-bold w-max">
           Hello, I&apos;m{' '}
@@ -29,20 +30,37 @@ export const Header = () => {
         </p>
 
         <div className="flex items-center space-x-10">
-          <Button className="mt-6">
+          <Link
+            href={
+              'https://drive.google.com/u/0/uc?id=16XCu-sT1g_YKoACZZtt09blKweKcTYz-&export=download'
+            }
+            className={buttonVariants({ className: 'mt-6' })}
+          >
             <Download className="w-4 h-4 mr-2" /> Resume
-          </Button>
+          </Link>
 
           <div className="flex items-center mt-5 space-x-4">
-            <Button size={'icon'}>
+            <Link
+              target="_blank"
+              href={'https://www.linkedin.com/in/md-jafar-sadique/'}
+              className={buttonVariants({ size: 'icon' })}
+            >
               <Linkedin className="w-4 h-4 text-black " />
-            </Button>
-            <Button size={'icon'}>
+            </Link>
+            <Link
+              target="_blank"
+              href={'https://github.com/10Sadique'}
+              className={buttonVariants({ size: 'icon' })}
+            >
               <Github className="w-4 h-4 text-black " />
-            </Button>
-            <Button size={'icon'}>
+            </Link>
+            <Link
+              target="_blank"
+              href={'mailto:jafarsjahan@gmail.com'}
+              className={buttonVariants({ size: 'icon' })}
+            >
               <Mail className="w-4 h-4 text-black " />
-            </Button>
+            </Link>
           </div>
         </div>
       </div>
