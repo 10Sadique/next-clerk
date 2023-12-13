@@ -30,7 +30,7 @@ export default async function RootLayout({
   return (
     <AuthProvider session={session}>
       <TRPCProvider>
-        <html lang="en">
+        <html lang="en" className="scroll-smooth dark">
           <body className={cn(space.className, 'scrollbar')}>
             <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
               <Toaster />
